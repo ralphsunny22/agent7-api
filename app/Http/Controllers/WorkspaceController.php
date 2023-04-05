@@ -69,7 +69,11 @@ class WorkspaceController extends Controller
     public function singleWorkspace($id)
     {
         try {
-            $workspace = Workspace::find($id);
+            $workspace = Workspace::with(['createdBy'])->find($id);
+            return response()->json([
+                'status' => 'success',
+                'data' => $workspace
+            ]);
             if(!isset($workspace)){
                 return response()->json([
                     'status' => 'error',
@@ -95,7 +99,7 @@ class WorkspaceController extends Controller
     public function allWorkspace()
     {
         try {
-            $workspaces = Workspace::all();
+            $workspaces = Workspace::with(['createdBy'])->get();
             return response()->json([
                 'status' => 'success',
                 'data' => $workspaces

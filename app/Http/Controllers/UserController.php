@@ -161,7 +161,17 @@ class UserController extends Controller
     public function singleUser($id)
     {
         try {
-            $user = User::find($id);
+            
+            $user = User::with([
+                'workspaces'=>[
+                    'createdBy'
+                ]
+            ])->find($id);
+            return response()->json([
+                'status' => 'success',
+                'data' => $user
+            ]);
+            
             return response()->json([
                 'status' => 'success',
                 'data' => $user
@@ -178,7 +188,11 @@ class UserController extends Controller
     public function allUser()
     {
         try {
-            $users = User::all();
+            $users = User::with([
+                'workspaces'=>[
+                    'createdBy'
+                ]
+            ])->get();
             return response()->json([
                 'status' => 'success',
                 'data' => $users

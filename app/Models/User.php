@@ -55,4 +55,8 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function workspaces() {
+        return $this->hasMany(Workspace::class, 'created_by');
+    }
 }
